@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Olipp ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&family=Sacramento&family=Gochi+Hand&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --pink-bg: #fff0f3;
+            --pink-utama: #ff4d6d;
+            --glass: rgba(255, 255, 255, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--pink-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #4a0e0e;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .lock-scroll { overflow: hidden; height: 100vh; }
+
+        /* 1. Overlay Pembuka */
+        #pembuka {
+            position: fixed; inset: 0; background: white; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: 0.8s ease-in-out;
+        }
+
+        .btn-start {
+            padding: 16px 45px; background: var(--pink-utama); color: white;
+            border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; box-shadow: 0 10px 20px rgba(255, 77, 109, 0.3);
+        }
+
+        /* 2. Hero Section */
+        .section-center {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 20px;
+        }
+
+        .hero h1 { font-family: 'Sacramento', cursive; font-size: clamp(3rem, 10vw, 5rem); color: var(--pink-utama); }
+        #type-space { font-family: 'Gochi Hand', cursive; font-size: 1.8rem; max-width: 600px; margin-top: 20px; min-height: 80px; }
+
+        /* 3. Gallery Sejajar */
+        .gallery-container { display: flex; flex-direction: column; align-items: center; gap: 15vh; padding: 100px 0; }
+        .bubble-photo {
+            width: 320px; background: white; padding: 15px 15px 45px 15px; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); transform: scale(0.8);
+            filter: blur(5px) opacity(0.2); transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .bubble-photo.active { transform: scale(1.05); filter: blur(0) opacity(1); box-shadow: 0 20px 50px rgba(255, 77, 109, 0.2); }
+        .bubble-photo img { width: 100%; height: 320px; object-fit: cover; border-radius: 6px; }
+        .bubble-photo p { font-family: 'Gochi Hand', cursive; text-align: center; margin-top: 15px; font-size: 1.3rem; }
+
+        /* 4. Finale */
+        .finale { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        #typing-valentine { font-family: 'Sacramento', cursive; font-size: clamp(2.5rem, 8vw, 4rem); color: var(--pink-utama); margin-bottom: 40px; }
+        .btn-group { display: flex; flex-direction: column; align-items: center; gap: 20px; opacity: 0; pointer-events: none; transition: 1s ease; }
+        .btn-group.reveal { opacity: 1; pointer-events: auto; }
+        .btn-ans { padding: 15px 60px; border-radius: 50px; border: none; font-weight: 700; cursor: pointer; font-size: 1.2rem; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        #yesBtn { background: var(--pink-utama); color: white; z-index: 10; }
+        #noBtn { background: white; color: #666; border: 1px solid #ddd; z-index: 5; }
+
+        /* 5. SMOOTH NOTIF STYLE */
+        #notif-overlay {
+            position: fixed; inset: 0; background: rgba(255, 240, 243, 0.6);
+            backdrop-filter: blur(8px); z-index: 10000;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: 0.6s ease;
+        }
+        #notif-box {
+            background: white; padding: 40px 60px; border-radius: 30px;
+            box-shadow: 0 30px 60px rgba(255, 77, 109, 0.2);
+            text-align: center; transform: scale(0.7) translateY(50px);
+            transition: 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        #notif-overlay.show { opacity: 1; pointer-events: auto; }
+        #notif-overlay.show #notif-box { transform: scale(1) translateY(0); }
+        #notif-box h2 { font-family: 'Sacramento', cursive; font-size: 3.5rem; color: var(--pink-utama); margin-bottom: 10px; }
+        #notif-box p { font-family: 'Gochi Hand', cursive; font-size: 1.5rem; color: #666; }
+
+        canvas#heart-bg { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+    </style>
+</head>
+<body class="lock-scroll">
+
+    <div id="pembuka">
+        <h2 style="font-family: 'Sacramento', cursive; font-size: 3rem; margin-bottom: 25px; color: var(--pink-utama);">For Olipp ❤️</h2>
+        <button class="btn-start" onclick="init()">Buka Sekarang ✨</button>
+    </div>
+
+    <div id="notif-overlay">
+        <div id="notif-box">
+            <h2>Yeyy Makasihh!</h2>
+            <p>I Love You So Much, Olipp ❤️</p>
+        </div>
+    </div>
+
+    <canvas id="heart-bg"></canvas>
+    <audio id="musik" loop><source src="music.mp3" type="audio/mpeg"></audio>
+
+    <section class="section-center hero">
+        <h1>Happy Valentine</h1>
+        <div id="type-space"></div>
+    </section>
+
+    <div class="gallery-container">
+        <div class="bubble-photo"><img src="foto1.jpeg"><p>Momen paling manis ✨</p></div>
+        <div class="bubble-photo"><img src="foto2.jpeg"><p>Senyum favoritku 💖</p></div>
+        <div class="bubble-photo"><img src="foto3.jpeg"><p>Dunia indah sama kamu ❤️</p></div>
+        <div class="bubble-photo"><img src="foto4.jpeg"><p>Forever & Always 🌸</p></div>
+    </div>
+
+    <section class="section-center finale" id="finale-section">
+        <h2 id="typing-valentine"></h2>
+        <div class="btn-group" id="group-tombol">
+            <button class="btn-ans" id="yesBtn" onclick="accept()">Yes, I Will!</button>
+            <button class="btn-ans" id="noBtn" onclick="dodgeAndFade()">No</button>
+        </div>
+    </section>
+
+    <script>
+        const hook = "URL_WEBHOOK_KAMU";
+        const msgHero = "Olipp sayang... Makasih ya udah nemenin hari-hariku sampai sekarang. Kamu itu berharga banget buat aku. Love you! ❤️";
+        const msgValentine = "Will you be my Valentine, Olipp?";
+
+        function init() {
+            document.getElementById('pembuka').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('pembuka').style.display = 'none';
+                document.getElementById('musik').play();
+                startTypingHero();
+            }, 800);
+        }
+
+        function startTypingHero() {
+            let i = 0; const target = document.getElementById("type-space");
+            function type() {
+                if (i < msgHero.length) { target.innerHTML += msgHero.charAt(i); i++; setTimeout(type, 60); }
+                else { document.body.classList.remove('lock-scroll'); target.innerHTML += "<br><br><small style='color:#aaa;'>SCROLL KE BAWAH ✨</small>"; }
+            }
+            type();
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('bubble-photo')) entry.target.classList.add('active');
+                    if (entry.target.id === 'finale-section') startTypingValentine();
+                } else {
+                    if (entry.target.classList.contains('bubble-photo')) entry.target.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.6 });
+
+        document.querySelectorAll('.bubble-photo').forEach(p => observer.observe(p));
+        observer.observe(document.getElementById('finale-section'));
+
+        let typeValStarted = false;
+        function startTypingValentine() {
+            if (typeValStarted) return;
+            typeValStarted = true;
+            let i = 0; const target = document.getElementById("typing-valentine");
+            function type() {
+                if (i < msgValentine.length) { target.innerHTML += msgValentine.charAt(i); i++; setTimeout(type, 80); }
+                else { document.getElementById('group-tombol').classList.add('reveal'); }
+            }
+            type();
+        }
+
+        let clicks = 0;
+        function dodgeAndFade() {
+            clicks++;
+            const noBtn = document.getElementById('noBtn');
+            const yesBtn = document.getElementById('yesBtn');
+            if (clicks <= 5) {
+                const x = (Math.random() - 0.5) * 300;
+                const y = (Math.random() - 0.5) * 300;
+                noBtn.style.position = 'absolute';
+                noBtn.style.transform = `translate(${x}px, ${y}px)`;
+                noBtn.style.opacity = (1 - (clicks * 0.2));
+                yesBtn.style.boxShadow = `0 0 ${clicks * 25}px ${clicks * 10}px rgba(255, 77, 109, 0.8)`;
+                yesBtn.style.transform = `scale(${1 + (clicks * 0.06)})`;
+            }
+            if (clicks >= 5) noBtn.style.display = 'none';
+        }
+
+        function accept() {
+            const overlay = document.getElementById('notif-overlay');
+            overlay.classList.add('show');
+            
+            if(hook !== "URL_WEBHOOK_KAMU") {
+                fetch(hook, { method: 'POST', headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ content: "OLIIP BILANG YES! ❤️" })});
+            }
+        }
+
+        const canvas = document.getElementById('heart-bg');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let hearts = [];
+        function render() {
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            if(hearts.length < 25) hearts.push({x: Math.random()*canvas.width, y: canvas.height+10, s: Math.random()*5+2, v: Math.random()*1.5+0.5});
+            hearts.forEach((h, i) => {
+                h.y -= h.v; ctx.fillStyle = "rgba(255, 77, 109, 0.2)";
+                ctx.beginPath(); ctx.arc(h.x, h.y, h.s, 0, Math.PI*2); ctx.fill();
+                if(h.y < -10) hearts.splice(i, 1);
+            });
+            requestAnimationFrame(render);
+        }
+        render();
+    </script>
+</body>
+</html>
